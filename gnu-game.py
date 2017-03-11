@@ -30,8 +30,7 @@ while True:
     pygame.draw.rect(windowSurface, playGame.color, (playGame.x, playGame.y, playGame.width, playGame.length))
     playGame.setFont()
     windowSurface.blit(playGame.label, (playGame.x+10, playGame.y))
-
-    mouse = pygame.mouse.get_pos()
+    playGame.isHovered()
     
     
     pygame.display.update()

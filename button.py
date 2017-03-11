@@ -5,6 +5,7 @@ class button:
         self.x = x
         self.y = y
         self.color = color
+        self.baseColor = color
         self.fontColor = fontColor
         self.text = text
         self.length = fontSize+5
@@ -23,3 +24,12 @@ class button:
 
     def clicked(self):
         self.Clicked()
+
+    def isHovered(self):
+        self.hoverColor = (abs(self.baseColor[0]-80), abs(self.baseColor[1]-80), abs(self.baseColor[2]-80))
+
+        mouse = pygame.mouse.get_pos()
+        if (self.x <= mouse[0] <= self.x+self.width) and (self.y <= mouse[1] <= self.y+self.length):
+            self.color = self.hoverColor
+        else:
+            self.color = self.baseColor
