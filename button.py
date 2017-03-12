@@ -1,15 +1,15 @@
 import pygame
 
 class button:
-    def __init__(self, x=0, y=0, width=100, color=(0,0,0), fontColor=(255,255,255), text="", fontSize=12):
+    def __init__(self, x=0, y=0, width=100, length=10, color=(0,0,0), fontColor=(255,255,255), text="", fontSize=12):
         self.x = x
         self.y = y
         self.color = color
         self.baseColor = color
         self.fontColor = fontColor
         self.text = text
-        self.length = fontSize+5
-        self.width = len(text)*(0.6 * fontSize)
+        self.length = length
+        self.width = width
         self.fontSize = fontSize
 
     def getCoordinates(self):
@@ -22,10 +22,11 @@ class button:
     def setClickedAction(self, func):
         self.Clicked = func
 
-    def isClicked(self, FST):
+    def isClicked(self, FST=""):
         mouse = pygame.mouse.get_pressed()
         if self.isHovered() and mouse[0] == 1:
             self.Clicked(FST)
+            return True
 
     def isHovered(self):
         self.hoverColor = (abs(self.baseColor[0]-80), abs(self.baseColor[1]-80), abs(self.baseColor[2]-80))
