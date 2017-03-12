@@ -22,8 +22,10 @@ class button:
     def setClickedAction(self, func):
         self.Clicked = func
 
-    def clicked(self):
-        self.Clicked()
+    def isClicked(self, FST):
+        mouse = pygame.mouse.get_pressed()
+        if self.isHovered() and mouse[0] == 1:
+            self.Clicked(FST)
 
     def isHovered(self):
         self.hoverColor = (abs(self.baseColor[0]-80), abs(self.baseColor[1]-80), abs(self.baseColor[2]-80))
@@ -31,5 +33,7 @@ class button:
         mouse = pygame.mouse.get_pos()
         if (self.x <= mouse[0] <= self.x+self.width) and (self.y <= mouse[1] <= self.y+self.length):
             self.color = self.hoverColor
+            return True
         else:
             self.color = self.baseColor
+            return False
