@@ -15,8 +15,8 @@ class button:
     def getCoordinates(self):
         return (self.x, self.y)
 
-    def setFont(self):
-        self.font = pygame.font.SysFont("Times New Roman", self.fontSize, 1)
+    def setFont(self, fontName):
+        self.font = pygame.font.SysFont(fontName, self.fontSize, 1)
         self.label = self.font.render(self.text, 1, self.fontColor)
         
     def setClickedAction(self, func):

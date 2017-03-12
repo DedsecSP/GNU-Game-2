@@ -1,9 +1,11 @@
 import pygame
 import sys
+import os
 from button import button
 from pygame.locals import *
 import pyganim
 from state_machine import Game
+import yaml
 
 def startGame(FST):
     FST.clickedPlay()
@@ -24,7 +26,8 @@ if __name__ == "__main__":
     gnuGame = Game()
 
     # Initialize buttons
-    gameFont = pygame.font.SysFont("Times New Roman", 50, 1)
+    fontName = "Times New Roman"
+    gameFont = pygame.font.SysFont(fontName, 50, 1)
     
     playGame = button((windowWidth/3)-len(title)+100, 250, 50, (0,0,0), (255,255,255), "Play Game", 25)
     playGame.setClickedAction(startGame)
@@ -32,6 +35,15 @@ if __name__ == "__main__":
     options = button((windowWidth/3)-len(title)+100, 300, 50, (0,0,0), (255,255,255), "Options", 25)
     options.setClickedAction(showOptions)
 
+    # Load character sprites
+    p1Avatar = pygame.image.load(".\data\\characters\\ballmer\\avatar.png")
+    for directory in os.listdir(".\\data\\characters"):
+        print(directory)
+        document = open(".\data\\characters\\%s\\config.yaml" % directory)
+        config = yaml.safe_load(document)
+        document.close()
+        print(config["avatar"])
+    
     # Start the game
     while True:
         for event in pygame.event.get():
@@ -49,29 +61,42 @@ if __name__ == "__main__":
 
             # Draw the "Play Game" button on screen
             pygame.draw.rect(windowSurface, playGame.color, (playGame.x, playGame.y, playGame.width, playGame.length))
-            playGame.setFont()
+            playGame.setFont(fontName)
             windowSurface.blit(playGame.label, (playGame.x+10, playGame.y))
 
             # Draw the "Options" button on screen
             pygame.draw.rect(windowSurface, options.color, (options.x, options.y, options.width, options.length))
-            options.setFont()
+            options.setFont(fontName)
             windowSurface.blit(options.label, (options.x+10, options.y))
 
-            # Check to see if the button is interacted with
+            # Check to see if the buttons are interacted with
             playGame.isHovered()
             playGame.isClicked(gnuGame)
 
             options.isHovered()
             options.isClicked(gnuGame)
             
-        elif gnuGame.state == "playGame":
+        elif gnuGame.state == "characterSelection":
             # Fill background color for the window
             windowSurface.fill((255, 255, 255))
 
+            # Draw the character selection scroll area and its contents
+            
+
             # Draw WIP text
-            message = "Sorry, WIP"
+            message = "SELECTION"
             label = gameFont.render(message, 1, (0,0,0))
-            windowSurface.blit(label, ((windowWidth/3)-len(title),(windowHeight/3)-50))
+            windowSurface.blit(label, ((windowWidth/3)-len(message)+65,100))
+
+            # Draw the avatars and their box
+            windowSurface.blit(p1Avatar, (100,50))
+            pygame.draw.rect(windowSurface, (50,50,50), (100,50,100,100), 2)
+            windowSurface.blit(p1Avatar, (760,50))
+            pygame.draw.rect(windowSurface, (50,50,50), (760,50,100,100), 2)
+
+            # Draw the rest of the interface
+            pygame.draw.line(windowSurface, (0,0,0), (50, 200), (250, 200))
+            pygame.draw.line(windowSurface, (0,0,0), (710, 200), (910, 200))
 
         elif gnuGame.state == "options":
             # Fill background color for the window
@@ -80,6 +105,8 @@ if __name__ == "__main__":
             # Draw options heading
             message = "Options"
             label = gameFont.render(message, 1, (0,0,0))
-            windowSurface.blit(label, ((windowWidth/3)-len(title),(windowHeight/3)-50))
+            windowSurface.blit(label, ((windowWidth/3)-len(message),(windowHeight/3)-50))
+
+
         
         pygame.display.update()

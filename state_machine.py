@@ -8,7 +8,7 @@ class Game(object):
         # Initialize the state machine
         self.machine = Machine(model=self, states=Game.states, initial='mainMenu')
 
-        self.machine.add_transition('clickedPlay', 'mainMenu', 'playGame')
+        self.machine.add_transition('clickedPlay', 'mainMenu', 'characterSelection')
         self.machine.add_transition('clickedOptions', 'mainMenu', 'options')
         self.machine.add_transition('returnToMainMenu', 'playGame', 'mainMenu')
         self.machine.add_transition('returnToMainMenu', 'options', 'mainMenu')
